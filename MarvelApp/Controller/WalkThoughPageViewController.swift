@@ -68,23 +68,29 @@ extension WalkThoughPageViewController: UIPageViewControllerDataSource {
     func pageViewController(_ pageViewController: UIPageViewController, viewControllerBefore viewController: UIViewController) -> UIViewController? {
         
         guard let currentIndex = pages.index(of: viewController) else { return nil }
-        
         let prevoiusIndex = currentIndex - 1
         guard prevoiusIndex >= 0 else { return pages.last }
         guard pages.count > prevoiusIndex else { return nil }
-        
+       
         return pages[prevoiusIndex]
     }
     
     func pageViewController(_ pageViewController: UIPageViewController, viewControllerAfter viewController: UIViewController) -> UIViewController? {
         
         guard  let currntIndex = pages.index(of: viewController) else { return nil }
-    
         let nextIndex = currntIndex + 1
         guard nextIndex < pages.count else { return pages.first }
         guard pages.count > nextIndex else { return nil }
-
+        
         return pages[nextIndex]
     }
     
+}
+
+extension WalkThoughPageViewController: UIPageViewControllerDelegate {
+    func pageViewController(_ pageViewController: UIPageViewController, willTransitionTo pendingViewControllers: [UIViewController]) {
+        let pageVC = pendingViewControllers[0]
+        pageControl?.currentPage = pages.index(of: pageVC)!
+    }
+
 }
